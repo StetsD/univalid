@@ -1,0 +1,37 @@
+{
+  "name": "univalid",
+  "version": "1.0.0",
+  "description": "Universal validator for server and client side",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StetsD/univalid.git"
+  },
+  "keywords": [
+	  "password",
+      "input",
+      "univalid",
+      "validation",
+      "univalid-strategy-form",
+      "univalid-strategy-default",
+      "validator",
+      "univalid-strategy",
+      "universal-validation",
+      "universal-validator",
+      "strategy",
+      "check",
+      "validate",
+	  "form"
+  ],
+  "author": "'StetsD' <chortstd@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StetsD/univalid"
+  },
+  "homepage": "https://github.com/StetsD/univalid#readme",
+  "devDependencies": {},
+  "dependencies": {
+	  "univalid-strategy-default": "^1.0.0"
+  }
+}
