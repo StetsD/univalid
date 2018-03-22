@@ -13,9 +13,9 @@ const MSG_CONFIG = require('./lib/univalid-msg-config')();
 
 module.exports = () => {
 	let _strategy = null;
-	var _state = [];
+	let _state = [];
 	let _validationHandlers = {};
-	let _msgConfig = MSG_CONFIG;
+    let _msgConfig = Object.assign({}, MSG_CONFIG);
 
 	class Univalid extends EventEmitter {
 	    constructor(){
@@ -24,6 +24,8 @@ module.exports = () => {
 	        this.on('error', msg => {
 	            console.warn(new Error(msg));
 	        });
+
+            this.DEFAULT_MSG_CONFIG = false;
 
 			this.setStrategy(new UnivalidStrategyDefault());
 			return this;
@@ -62,7 +64,7 @@ module.exports = () => {
 
 				msg && msg[status] ?
 					msgResult = msg[status] :
-					msgResult = _msgConfig[status];
+                    msgResult = !this.DEFAULT_MSG_CONFIG ? _msgConfig[status] : MSG_CONFIG[status];
 
 	            _state.push({name, type, state, status, msg: msgResult});
 	        }
@@ -94,23 +96,18 @@ module.exports = () => {
 	        }
 	    }
 
-		setMsgConfig(config){
-			if(!config){
-				return this.emit('error', 'msgConfig of validation handlers is not defined');
-			}
-			let notAllReqFields = true;
-			['empty', 'invalid', 'filter', 'success'].forEach(field => {
-				if(!config[field]){
-					notAllReqFields = false;
-					return this.emit('error', `The "${field}" field is required in msgConfig`);
-				}
-			});
+        setMsgConfig(config) {
+            if (!config) {
+                return this.emit('error', 'msgConfig of validation handlers is not defined');
+            }
+            for (let key in config) {
+                if (_msgConfig[key]) {
+                    _msgConfig[key] = config[key];
+                }
+            }
 
-			if(notAllReqFields){
-				_msgConfig = config;
-				this.emit('change:msg-config', this);
-			}
-		}
+            this.emit('change:msg-config', this);
+        }
 
 		set(option, val){
 			let strOpt = _strategy[option];
@@ -169,6 +166,23 @@ module.exports = () => {
 				return null;
 			}
 		}
+
+        toggleDefaultMsgConfig() {
+            this.DEFAULT_MSG_CONFIG = !this.DEFAULT_MSG_CONFIG;
+        }
+
+        setDefaultMsgConfig(config) {
+            if (!config) {
+                return this.emit('error', 'msgConfig of validation handlers is not defined');
+            }
+
+            for (let key in config) {
+                if (MSG_CONFIG[key]) {
+                    MSG_CONFIG[key] = config[key];
+                }
+            }
+        }
+
 	}
 
     return new Univalid();

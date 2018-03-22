@@ -129,6 +129,41 @@ univalid.setMsgConfig({
 ```
 
 
+### toggleDefaultMsgConfig()
+
+Toggle to default and common configuration of messages.
+
+This configuration is common for all univalid modules.
+
+```js
+univalid.toggleDefaultMsgConfig(); // default msgConfig
+univalid.toggleDefaultMsgConfig(); // msgConfig of instance
+```
+
+
+### setDefaultMsgConfig(config)
+
+Set new Common Message config 
+
+**config** - Type `object`
+
+```js
+univalid.setMsgConfig({
+    empty: 'NEW COMMON EMPTY ERROR', 
+    invalid: 'NEW COMMON INVALID', 
+    filter: "NEW COMMON FILTER", 
+    success: 'NEW COMMON SUCCESS'
+});
+
+//or
+
+univalid.setMsgConfig({
+    empty: 'NEW COMMON EMPTY ERROR'
+});
+ 
+```
+
+
 ### set(option, val)
 
 Set new prop to your current strategy of validation 
