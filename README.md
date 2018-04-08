@@ -14,11 +14,33 @@ npm i univalid
 ```
 
 
-## Usage
+## Base usage
 
 ```js
 const Univalid = require('univalid');
 const univalid = Univalid();
+
+univalid.check([
+    {
+        name: 'login',
+        val: 'User01',
+        type: 'required'
+    },
+    {
+        name: 'email',
+        val: 'test@test.ts',
+        type: 'email'
+    },
+    {
+        name: 'password',
+        val: undefined,
+        type: 'password'
+    }
+]);
+
+console.log(univalid.getCommonState, univalid.getState);
+univalid.clearState();
+
 ```
 
 
@@ -61,7 +83,15 @@ univalid.check(
             name: 'email',
             val: 'Uriy@mzf.com',
             type: 'email',
-            filter: /[a-z]|\s/gi,
+            filter: val => {
+                // Your custom filter
+                
+                console.log('Filter', val);
+                
+                // if FilterHandler is Ok then "return true"
+                    return true;
+                // else return false
+            },
             msg: {
                 empty: 'You shall not pass',
                 invalid: 'Bad email',
